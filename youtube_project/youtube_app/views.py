@@ -3,6 +3,10 @@ from django.views import View
 from django.contrib.auth.models import User
 from youtube_app.forms import *
 from django.contrib.auth import authenticate, login
+from youtube_app.models import *
+import random
+
+import string
 # Create your views here.
 
 
@@ -49,3 +53,42 @@ class RegisterView(View):
 			new_user.set_password(password)  # this way it will  save password using some algo
 			new_user.save()
 		return HttpResponse("JssssssssHGHB")
+
+
+class NewVideo(View):
+    template_name = 'youtube_app/new_video.html'
+
+    def get(self, request):
+        print(request.user.is_authenticated)
+        if request.user.is_authenticated == False:
+            #return HttpResponse('You have to be logged in, in order to upload a video.')
+            return HttpResponseRedirect('/register')
+        
+        form = NewVideoForm()
+        return render(request, self.template_name, {'form':form})
+
+    def post(self, request):
+        # pass filled out HTML-Form from View to NewVideoForm()
+        # user_form = StudentForm(request.POST, request.FILES)
+        form1 = NewVideoForm(request.POST, request.FILES)
+        print("sjkjh",form1.errors)
+        if form1.is_valid():
+        	title = form1.cleaned_data['title']
+        	description = form1.cleaned_data['description']
+        	file1 = form1.cleaned_data['file']
+        	print(title)
+        	print(description)
+        	print("jhhg",file1)
+        	print(request.FILES['file'].name)
+        	random_char = ''.join(random.sample(string.ascii_uppercase + string.digits, k=10))
+        	path = random_char + "hg" #@request.FILES['file'].name
+        	new_video = Video(title=title, 
+                            description=description,
+                            user=request.user,
+                            path=path)
+        	new_video.save()
+        	return HttpResponse('Your form ihjjjjjjjjjjjjjjjjjs not valid. Go back and try again.')
+
+            # return HttpResponseRedirect('/video/{}'.format(new_video.id))
+        else:
+            return HttpResponse('Your form is not valid. Go back and try again.')
