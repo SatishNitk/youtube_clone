@@ -16,3 +16,6 @@ class NewVideoForm(forms.Form):
     description = forms.CharField(label='Description', max_length=20)
     file = forms.FileField(label='file',required=False)
 
+class CommentForm(forms.Form):
+    text = forms.CharField(label='text', max_length=300)
+    #video = forms.IntegerField(widget=forms.HiddenInput(), initial=1) 

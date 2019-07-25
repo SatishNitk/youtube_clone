@@ -8,7 +8,8 @@ class Video(models.Model):
 	user = models.ForeignKey(User, on_delete= models.CASCADE)
 	title = models.CharField(max_length=50)
 	description= models.TextField(max_length=300)
-	path = models.CharField(max_length=50)
+	# path = models.CharField(max_length=50)
+	video_file = models.FileField(upload_to='video/')
 	datetime = models.DateTimeField(default=timezone.now(), blank=True)
 
 	def __str__(self):
@@ -16,7 +17,7 @@ class Video(models.Model):
 
 class Comment(models.Model):
 	text = models.TextField(max_length=300)
-	datetime = models.DateTimeField(blank=False,null=False)
+	datetime = models.DateTimeField(default=timezone.now(),blank=True)
 	user = models.ForeignKey(User, on_delete= models.CASCADE)
 	video = models.ForeignKey(Video, on_delete= models.CASCADE)
 
