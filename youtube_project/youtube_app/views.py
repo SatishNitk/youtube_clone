@@ -104,23 +104,6 @@ class NewVideo(View):
         else:
             return HttpResponse('Your form is not valid. Go back and try again.')
 
-# class VideoView(View):
-#     template_name = 'youtube_app/video.html'
-
-#     def get(self, request, id):
-#         #fetch video from DB by ID
-#         video_by_id = Video.objects.get(id=id)
-#         # DoesNotExist 
-#         context = {'video':video_by_id}
-#         print(request.user)
-#         if request.user.is_authenticated:
-#             print('user signed in')
-#             comment_form = CommentForm()
-#             context['form'] = comment_form
-
-#         print(context)
-#         return render(request, self.template_name, context)
-
 
 class VideoView(View):
     template_name = 'youtube_app/video.html'
